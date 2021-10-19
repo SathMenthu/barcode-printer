@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SathMenthu/barcode-printer#readme",
   "dependencies": {
+    "bwip-js": "^3.0.4",
     "fs-extra": "^10.0.0",
     "papaparse": "^5.3.1"
   }
