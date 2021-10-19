@@ -33,8 +33,8 @@ const dataLoader = async () => {
 const printData = async () => {
   try {
     const counter = {
-      sku: 1,
-      ean: 1,
+      sku: 1001,
+      ean: 1001,
     };
     for (const sku of SKU_ARRAY) {
       const barcode = await bwipjs.toBuffer({
