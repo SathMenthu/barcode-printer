@@ -1,1 +1,6 @@
-## It will be a barcode printer
+## BARCODE (EAN / SKU) printer
+
+### Author: Mateusz Krasik
+
+###
+
