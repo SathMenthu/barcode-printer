@@ -1,0 +1,23 @@
+{
+  "name": "barcode-printer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SathMenthu/barcode-printer.git"
+  },
+  "author": "Mateusz Krasik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SathMenthu/barcode-printer/issues"
+  },
+  "homepage": "https://github.com/SathMenthu/barcode-printer#readme",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "papaparse": "^5.3.1"
+  }
+}
