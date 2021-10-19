@@ -81,6 +81,8 @@ const rl = readline.createInterface({
         FINAL:
           "Generation Complete! Your files are in the barcodes folder! (press enter to exit) ",
         CONTACT: "If it occured an error, please dm to @Mateusz Krasik",
+        REMOVING: "Trying to remove barcodes folder ...",
+        GENERATE: "Generating barcodes ...",
       },
       ENG: {
         WARRNING:
@@ -89,6 +91,8 @@ const rl = readline.createInterface({
         FINAL:
           "Generowanie zakończone, twoje pliki znajdują się w folderze barcodes! (naciśnij enter, żeby wyjść) ",
         CONTACT: "Jeżeli wystąpił jakiś błąd, pisz do @Mateusz Krasik",
+        REMOVING: "Próba usunięcia folderu barcodes ...",
+        GENERATE: "Generowanie barcode'ów ...",
       },
     };
 
@@ -102,7 +106,9 @@ const rl = readline.createInterface({
         console.log(language[currentLanguage].WARRNING);
         console.log(language[currentLanguage].CONTACT);
         await rl.question(language[currentLanguage].QUESTION, async () => {
+          console.log(language[currentLanguage].REMOVING);
           await dataLoader();
+          console.log(language[currentLanguage].GENERATE);
           await printData();
           rl.question(language[currentLanguage].FINAL, async () => {
             rl.close();

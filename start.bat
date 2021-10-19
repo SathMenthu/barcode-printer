@@ -1,5 +1,6 @@
-@echo
+@echo off
+open .
 cd app
 cls
 node index.js
-@echo
+start ..\barcodes
