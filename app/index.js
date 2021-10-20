@@ -2,6 +2,7 @@ const Papa = require("papaparse");
 const bwipjs = require("bwip-js");
 const { readFile, outputFile, remove } = require("fs-extra");
 const readline = require("readline");
+const text2png = require("text2png");
 
 const FILE_PATH = "../print.csv";
 const EAN_ARRAY = [];
@@ -37,15 +38,14 @@ const printData = async () => {
       ean: 1001,
     };
     for (const sku of SKU_ARRAY) {
-      const barcode = await bwipjs.toBuffer({
-        bcid: "code128", // Barcode type
-        text: sku || "puste pole", // Text to encode
-        scale: 3, // 3x scaling factor
-        height: 10, // Bar height, in millimeters
-        includetext: true, // Show human-readable text
-        textxalign: "center", // Always good to set this
-      });
-      await outputFile(`../barcodes/sku/${counter.sku++}.jpg`, barcode);
+
+      let correctSKU = sku;
+      while (correctSKU.indexOf("/") >= 0) {
+        let changeSymbols = correctSKU.replace("/", "_");
+        correctSKU = changeSymbols;
+      }
+
+      await outputFile(`../barcodes/sku/${counter.sku}_${correctSKU}.jpg`, text2png(sku || " "));
     }
     for (const ean of EAN_ARRAY) {
       const barcode = await bwipjs.toBuffer({
@@ -57,7 +57,7 @@ const printData = async () => {
         includetext: true, // Show human-readable text
         textxalign: "center", // Always good to set this
       });
-      await outputFile(`../barcodes/ean/${counter.ean++}.jpg`, barcode);
+      await outputFile(`../barcodes/ean/${counter.ean++}_${ean}.jpg`, barcode);
     }
     return counter;
   } catch (e) {
@@ -74,7 +74,7 @@ const rl = readline.createInterface({
   try {
     let currentLanguage = "PL";
     const language = {
-      PL: {
+      ENG: {
         WARRNING:
           "Make sure you removed the headers and saved the file as print.csv (in Excel, save as > .csv (ms-dos)",
         QUESTION: "Generate Codes (press enter): ",
@@ -84,7 +84,7 @@ const rl = readline.createInterface({
         REMOVING: "Trying to remove barcodes folder ...",
         GENERATE: "Generating barcodes ...",
       },
-      ENG: {
+      PL: {
         WARRNING:
           "Upewnij się, że usunąłeś nagłówki i zapisałeś plik jako print.csv (w excelu opcja zapisz jako > .csv (ms-dos)",
         QUESTION: "Wygeneruj kody (naciśnij enter): ",
@@ -96,13 +96,11 @@ const rl = readline.createInterface({
       },
     };
 
-    let question = "";
     await rl.question(
       "Hello!, Choose your language (PL/ENG): ",
       async (answer) => {
-        answer === "ENG" || "eng"
-          ? (currentLanguage = "ENG")
-          : (currentLanguage = "PL");
+        answer === ("ENG" || "eng") ? currentLanguage = "ENG" : currentLanguage = "PL"
+
         console.log(language[currentLanguage].WARRNING);
         console.log(language[currentLanguage].CONTACT);
         await rl.question(language[currentLanguage].QUESTION, async () => {
