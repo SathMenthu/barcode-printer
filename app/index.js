@@ -38,14 +38,16 @@ const printData = async () => {
       ean: 1001,
     };
     for (const sku of SKU_ARRAY) {
-
       let correctSKU = sku;
       while (correctSKU.indexOf("/") >= 0) {
         let changeSymbols = correctSKU.replace("/", "_");
         correctSKU = changeSymbols;
       }
 
-      await outputFile(`../barcodes/sku/${counter.sku++}_${correctSKU}.jpg`, text2png(sku || " "));
+      await outputFile(
+        `../barcodes/sku/${counter.sku++}_${correctSKU}.png`,
+        text2png(sku || " ")
+      );
     }
     for (const ean of EAN_ARRAY) {
       const barcode = await bwipjs.toBuffer({
@@ -57,7 +59,7 @@ const printData = async () => {
         includetext: true, // Show human-readable text
         textxalign: "center", // Always good to set this
       });
-      await outputFile(`../barcodes/ean/${counter.ean++}_${ean}.jpg`, barcode);
+      await outputFile(`../barcodes/ean/${counter.ean++}_${ean}.png`, barcode);
     }
     return counter;
   } catch (e) {
@@ -99,7 +101,9 @@ const rl = readline.createInterface({
     await rl.question(
       "Hello!, Choose your language (PL/ENG): ",
       async (answer) => {
-        answer === ("ENG" || "eng") ? currentLanguage = "ENG" : currentLanguage = "PL"
+        answer === ("ENG" || "eng")
+          ? (currentLanguage = "ENG")
+          : (currentLanguage = "PL");
 
         console.log(language[currentLanguage].WARRNING);
         console.log(language[currentLanguage].CONTACT);
