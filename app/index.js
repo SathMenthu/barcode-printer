@@ -45,7 +45,7 @@ const printData = async () => {
         correctSKU = changeSymbols;
       }
 
-      await outputFile(`../barcodes/sku/${counter.sku}_${correctSKU}.jpg`, text2png(sku || " "));
+      await outputFile(`../barcodes/sku/${counter.sku++}_${correctSKU}.jpg`, text2png(sku || " "));
     }
     for (const ean of EAN_ARRAY) {
       const barcode = await bwipjs.toBuffer({
